@@ -3,180 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notícias Tech - Widget para SharePoint</title>
+    <title>Notícias de Tecnologia</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: transparent;
-            padding: 16px;
-        }
-        
-        .widget-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #0078d4;
-        }
-        
-        .widget-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #323130;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .widget-title svg {
-            width: 24px;
-            height: 24px;
-            fill: #0078d4;
-        }
-        
-        .ultima-atualizacao {
-            font-size: 11px;
-            color: #605e5c;
-        }
-        
-        .noticias-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-        }
-        
-        .noticia-card {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: all 0.2s ease;
-            border: 1px solid #edebe9;
-        }
-        
-        .noticia-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
-        }
-        
-        .noticia-imagem {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        /* Placeholder para notícias sem imagem */
-        .noticia-placeholder {
-            width: 100%;
-            height: 140px;
-            background: linear-gradient(135deg, #0078d4 0%, #00a4ef 50%, #7fba00 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .noticia-placeholder::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255,255,255,0.05) 10px,
-                rgba(255,255,255,0.05) 20px
-            );
-        }
-        
-        .noticia-placeholder svg {
-            width: 48px;
-            height: 48px;
-            fill: rgba(255,255,255,0.9);
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            z-index: 1;
-        }
-        
-        .noticia-conteudo {
-            padding: 12px;
-        }
-        
-        .noticia-fonte {
-            display: inline-block;
-            font-size: 10px;
-            font-weight: 600;
-            color: #0078d4;
-            background: #e6f2ff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-        
-        .noticia-titulo {
-            font-size: 14px;
-            font-weight: 600;
-            color: #323130;
-            line-height: 1.4;
-            margin-bottom: 8px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .noticia-titulo a {
-            color: inherit;
-            text-decoration: none;
-        }
-        
-        .noticia-titulo a:hover {
-            color: #0078d4;
-        }
-        
-        .noticia-data {
-            font-size: 11px;
-            color: #605e5c;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #605e5c;
-        }
-        
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #edebe9;
-            border-top: 3px solid #0078d4;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .erro {
-            text-align: center;
-            padding: 40px;
-            color: #a80000;
-            background: #fde7e9;
-            border-radius: 8px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: transparent; padding: 16px; }
+        .widget-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #0078d4; }
+        .widget-title { font-size: 18px; font-weight: 600; color: #323130; display: flex; align-items: center; gap: 8px; }
+        .widget-title svg { width: 24px; height: 24px; fill: #0078d4; }
+        .ultima-atualizacao { font-size: 11px; color: #605e5c; }
+        .noticias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .noticia-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; transition: all 0.2s ease; border: 1px solid #edebe9; }
+        .noticia-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: translateY(-2px); }
+        .noticia-imagem { width: 100%; height: 140px; object-fit: cover; background: linear-gradient(135deg, #0078d4, #00a4ef); }
+        .noticia-placeholder { width: 100%; height: 140px; background: linear-gradient(135deg, #0078d4 0%, #00a4ef 50%, #7fba00 100%); display: flex; align-items: center; justify-content: center; }
+        .noticia-placeholder svg { width: 48px; height: 48px; fill: rgba(255,255,255,0.9); }
+        .noticia-conteudo { padding: 12px; }
+        .noticia-fonte { display: inline-block; font-size: 10px; font-weight: 600; color: #fff; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
+        .noticia-titulo { font-size: 14px; font-weight: 600; color: #323130; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .noticia-titulo a { color: inherit; text-decoration: none; }
+        .noticia-titulo a:hover { color: #0078d4; }
+        .noticia-data { font-size: 11px; color: #605e5c; }
+        .loading { text-align: center; padding: 40px; color: #605e5c; }
+        .loading-spinner { width: 40px; height: 40px; border: 3px solid #edebe9; border-top: 3px solid #0078d4; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -187,303 +36,204 @@
         </div>
         <span class="ultima-atualizacao" id="ultima-atualizacao"></span>
     </div>
-    
     <div id="noticias-container" class="noticias-grid">
-        <div class="loading">
-            <div class="loading-spinner"></div>
-            <p>Carregando notícias...</p>
-        </div>
+        <div class="loading"><div class="loading-spinner"></div><p>Carregando notícias...</p></div>
     </div>
 
     <script>
-        // =====================================================
-        // FILTRO DE PROMOÇÕES - Palavras-chave a serem filtradas
-        // =====================================================
-        const PALAVRAS_BLOQUEADAS = [
-            // Promoções e ofertas
-            'oferta', 'ofertas', 'promoção', 'promoções', 'promo',
-            'desconto', 'descontos', 'cupom', 'cupons', 'voucher',
-            'black friday', 'cyber monday', 'liquidação',
-            'cashback', 'frete grátis', 'grátis',
-            
-            // Preços e valores
-            'r$', 'reais', 'por apenas', 'a partir de r',
-            'preço', 'barato', 'mais barato', 'economia de',
-            'vale a pena comprar', 'melhor preço',
-            
-            // Lojas e marketplaces
-            'magazine luiza', 'magalu', 'mercado livre',
-            'amazon', 'americanas', 'shopee', 'aliexpress',
-            'casas bahia', 'ponto frio', 'submarino',
-            'kabum', 'pichau', 'terabyte', 'pelando',
-            
-            // Ações de compra
-            'compre agora', 'comprar agora', 'à venda',
-            'em oferta', 'aproveite', 'não perca',
-            'últimas unidades', 'estoque limitado',
-            'onde comprar', 'guia de compra',
-            
-            // Comparação de preços
-            'comparativo de preços', 'comparar preços',
-            'vale a pena', 'custo-benefício'
+        // Configuração
+        const FEEDS = [
+            { nome: "TecMundo", url: "https://rss.tecmundo.com.br/feed", cor: "#e74c3c" },
+            { nome: "Olhar Digital", url: "https://olhardigital.com.br/feed/", cor: "#3498db" },
+            { nome: "Tecnoblog", url: "https://tecnoblog.net/feed/", cor: "#9b59b6" },
+            { nome: "Canaltech", url: "https://canaltech.com.br/rss/", cor: "#2ecc71" }
         ];
 
-        // Função para verificar se o texto contém palavras bloqueadas
-        function contemPromocao(texto) {
-            if (!texto) return false;
+        const PROXIES = [
+            "https://api.allorigins.win/raw?url=",
+            "https://corsproxy.io/?",
+            "https://api.codetabs.com/v1/proxy?quest="
+        ];
+
+        const PALAVRAS_BLOQUEADAS = [
+            "oferta","ofertas","promoção","promoções","desconto","descontos","cupom","cupons",
+            "grátis","black friday","cyber monday","amazon","magazine luiza","magalu","mercado livre",
+            "aliexpress","shopee","compre agora","comprar","onde comprar","melhor preço","cashback",
+            "frete grátis","economize","barato","liquidação","deal","deals","sale","outlet"
+        ];
+
+        // Função para tratar erro de imagem - SOLUÇÃO SEM ASPAS PROBLEMÁTICAS
+        function handleImageError(img) {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'noticia-placeholder';
+            placeholder.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>';
+            img.parentNode.replaceChild(placeholder, img);
+        }
+
+        function filtrarPromocao(texto) {
             const textoLower = texto.toLowerCase();
             return PALAVRAS_BLOQUEADAS.some(palavra => textoLower.includes(palavra));
         }
 
-        // Configuração dos feeds RSS via proxy público
-        const FEEDS = [
-            {
-                nome: 'TecMundo',
-                url: 'https://rss.tecmundo.com.br/feed',
-                cor: '#e74c3c'
-            },
-            {
-                nome: 'Olhar Digital',
-                url: 'https://olhardigital.com.br/feed/',
-                cor: '#3498db'
-            },
-            {
-                nome: 'Tecnoblog',
-                url: 'https://tecnoblog.net/feed/',
-                cor: '#9b59b6'
-            },
-            {
-                nome: 'Canaltech',
-                url: 'https://canaltech.com.br/rss/',
-                cor: '#2ecc71'
+        function formatarData(dataStr) {
+            try {
+                const data = new Date(dataStr);
+                const agora = new Date();
+                const diff = Math.floor((agora - data) / 60000);
+                if (diff < 1) return "Agora";
+                if (diff < 60) return `Há ${diff} min`;
+                if (diff < 1440) return `Há ${Math.floor(diff / 60)}h`;
+                return "Agora há pouco";
+            } catch (e) {
+                return "Agora há pouco";
             }
-        ];
+        }
 
-        // Proxies para contornar CORS
-        const PROXIES = [
-            'https://api.allorigins.win/raw?url=',
-            'https://corsproxy.io/?',
-            'https://api.codetabs.com/v1/proxy?quest='
-        ];
-
-        let proxyIndex = 0;
+        function extrairImagem(item) {
+            try {
+                // 1. media:content
+                const mediaContent = item.getElementsByTagName("media:content")[0];
+                if (mediaContent) {
+                    const url = mediaContent.getAttribute("url");
+                    if (url && url.startsWith("http")) return url;
+                }
+                // 2. enclosure
+                const enclosure = item.getElementsByTagName("enclosure")[0];
+                if (enclosure) {
+                    const url = enclosure.getAttribute("url");
+                    if (url && url.startsWith("http")) return url;
+                }
+                // 3. content:encoded
+                const contentEncoded = item.getElementsByTagName("content:encoded")[0];
+                if (contentEncoded) {
+                    const match = contentEncoded.textContent.match(/<img[^>]+src=["']([^"']+)["']/i);
+                    if (match && match[1].startsWith("http")) return match[1];
+                }
+                // 4. description
+                const desc = item.getElementsByTagName("description")[0];
+                if (desc) {
+                    const match = desc.textContent.match(/<img[^>]+src=["']([^"']+)["']/i);
+                    if (match && match[1].startsWith("http")) return match[1];
+                }
+            } catch (e) {}
+            return "";
+        }
 
         async function fetchComProxy(url) {
-            for (let i = 0; i < PROXIES.length; i++) {
+            for (const proxy of PROXIES) {
                 try {
-                    const proxyUrl = PROXIES[(proxyIndex + i) % PROXIES.length] + encodeURIComponent(url);
-                    const response = await fetch(proxyUrl, { timeout: 10000 });
-                    if (response.ok) {
-                        proxyIndex = (proxyIndex + i) % PROXIES.length;
-                        return await response.text();
-                    }
-                } catch (e) {
-                    continue;
-                }
+                    const resp = await fetch(proxy + encodeURIComponent(url), { 
+                        signal: AbortSignal.timeout(8000) 
+                    });
+                    if (resp.ok) return await resp.text();
+                } catch (e) {}
             }
-            throw new Error('Todos os proxies falharam');
-        }
-
-        // =====================================================
-        // EXTRAÇÃO AVANÇADA DE IMAGENS
-        // =====================================================
-        function extrairImagem(item, description) {
-            let imagem = '';
-            
-            // 1. Tentar media:content (namespace media)
-            const mediaContent = item.getElementsByTagName('media:content')[0];
-            if (mediaContent && mediaContent.getAttribute('url')) {
-                imagem = mediaContent.getAttribute('url');
-                if (imagem) return imagem;
-            }
-            
-            // 2. Tentar media:thumbnail
-            const mediaThumbnail = item.getElementsByTagName('media:thumbnail')[0];
-            if (mediaThumbnail && mediaThumbnail.getAttribute('url')) {
-                imagem = mediaThumbnail.getAttribute('url');
-                if (imagem) return imagem;
-            }
-            
-            // 3. Tentar content:encoded
-            const contentEncoded = item.getElementsByTagName('content:encoded')[0];
-            if (contentEncoded) {
-                const contentText = contentEncoded.textContent || '';
-                const imgMatch = contentText.match(/<img[^>]+src=["']([^"']+)["']/i);
-                if (imgMatch && imgMatch[1]) {
-                    return imgMatch[1];
-                }
-            }
-            
-            // 4. Tentar enclosure
-            const enclosure = item.querySelector('enclosure[url]');
-            if (enclosure) {
-                const url = enclosure.getAttribute('url');
-                const type = enclosure.getAttribute('type') || '';
-                if (url && type.startsWith('image')) {
-                    return url;
-                }
-            }
-            
-            // 5. Tentar image dentro do item
-            const imageTag = item.querySelector('image');
-            if (imageTag) {
-                const urlTag = imageTag.querySelector('url');
-                if (urlTag && urlTag.textContent) {
-                    return urlTag.textContent.trim();
-                }
-            }
-            
-            // 6. Buscar qualquer imagem na description
-            if (description) {
-                // Primeiro tentar img src
-                const imgMatch = description.match(/<img[^>]+src=["']([^"']+)["']/i);
-                if (imgMatch && imgMatch[1]) {
-                    return imgMatch[1];
-                }
-                
-                // Tentar background-image
-                const bgMatch = description.match(/background-image:\s*url\(["']?([^"')]+)["']?\)/i);
-                if (bgMatch && bgMatch[1]) {
-                    return bgMatch[1];
-                }
-            }
-            
-            // 7. Tentar pegar do link do item (alguns feeds têm og:image)
-            // Não implementado para evitar requests extras
-            
-            return ''; // Retorna vazio, o placeholder será usado
-        }
-
-        function parseRSS(xmlString, feedInfo) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(xmlString, 'text/xml');
-            const items = doc.querySelectorAll('item');
-            const noticias = [];
-
-            // Pegar mais itens para ter margem após filtrar promoções
-            const maxItems = Math.min(items.length, 15);
-            
-            for (let i = 0; i < maxItems; i++) {
-                const item = items[i];
-                
-                const titulo = item.querySelector('title')?.textContent || '';
-                const link = item.querySelector('link')?.textContent || '';
-                const pubDate = item.querySelector('pubDate')?.textContent || '';
-                const description = item.querySelector('description')?.textContent || '';
-                
-                // FILTRO DE PROMOÇÕES: Verificar título e descrição
-                if (contemPromocao(titulo) || contemPromocao(description)) {
-                    console.log(`[FILTRADO] Promoção detectada: ${titulo}`);
-                    continue; // Pular esta notícia
-                }
-                
-                // Extrair imagem com método avançado
-                const imagem = extrairImagem(item, description);
-
-                noticias.push({
-                    titulo: titulo.replace(/<[^>]*>/g, ''),
-                    link,
-                    data: pubDate ? new Date(pubDate) : new Date(),
-                    imagem,
-                    fonte: feedInfo.nome,
-                    cor: feedInfo.cor
-                });
-            }
-
-            return noticias;
-        }
-
-        function formatarData(data) {
-            const agora = new Date();
-            const diff = agora - data;
-            const horas = Math.floor(diff / (1000 * 60 * 60));
-            
-            if (horas < 1) return 'Agora há pouco';
-            if (horas < 24) return `Há ${horas}h`;
-            
-            const dias = Math.floor(horas / 24);
-            if (dias === 1) return 'Ontem';
-            if (dias < 7) return `Há ${dias} dias`;
-            
-            return data.toLocaleDateString('pt-BR');
-        }
-
-        // SVG placeholder para notícias sem imagem
-        const PLACEHOLDER_SVG = `
-            <svg viewBox="0 0 24 24" xmlns="https://img.freepik.com/premium-vector/gray-circular-user-icon-darker-inner-silhouette-within-light-gray-circle-minimal-modern-style_213497-4884.jpg">
-                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 2.75c1.24 0 2.25 1.01 2.25 2.25s-1.01 2.25-2.25 2.25S9.75 10.24 9.75 9s1.01-2.25 2.25-2.25zM17 17H7v-1.5c0-1.67 3.33-2.5 5-2.5s5 .83 5 2.5V17z"/>
-            </svg>
-        `;
-
-        function renderizarNoticias(noticias) {
-            const container = document.getElementById('noticias-container');
-            
-            if (noticias.length === 0) {
-                container.innerHTML = '<div class="erro">Não foi possível carregar as notícias. Tente novamente mais tarde.</div>';
-                return;
-            }
-
-            // Ordenar por data e pegar as 4 mais recentes (já filtradas)
-            noticias.sort((a, b) => b.data - a.data);
-            const top4 = noticias.slice(0, 4);
-
-            container.innerHTML = top4.map(noticia => {
-                const placeholderHTML = '<div class="noticia-placeholder">' + PLACEHOLDER_SVG + '</div>';
-                const escapedPlaceholder = placeholderHTML.replace(/"/g, '&quot;');
-                
-                let imagemHTML;
-                if (noticia.imagem) {
-                    imagemHTML = '<img class="noticia-imagem" src="' + noticia.imagem + '" alt="" loading="lazy" onerror="this.outerHTML=\'' + placeholderHTML.replace(/'/g, "\\'").replace(/"/g, '\\"') + '\'">';
-                } else {
-                    imagemHTML = placeholderHTML;
-                }
-                
-                return '<div class="noticia-card">' +
-                    imagemHTML +
-                    '<div class="noticia-conteudo">' +
-                        '<span class="noticia-fonte" style="background: ' + noticia.cor + '20; color: ' + noticia.cor + '">' +
-                            noticia.fonte +
-                        '</span>' +
-                        '<h3 class="noticia-titulo">' +
-                            '<a href="' + noticia.link + '" target="_blank" rel="noopener">' + noticia.titulo + '</a>' +
-                        '</h3>' +
-                        '<span class="noticia-data">' + formatarData(noticia.data) + '</span>' +
-                    '</div>' +
-                '</div>';
-            }).join('');
-
-            document.getElementById('ultima-atualizacao').textContent = 
-                `Atualizado: ${new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}`;
+            return null;
         }
 
         async function carregarNoticias() {
-            const todasNoticias = [];
-            
-            const promises = FEEDS.map(async (feed) => {
+            const container = document.getElementById("noticias-container");
+            let todasNoticias = [];
+
+            for (const feed of FEEDS) {
                 try {
                     const xml = await fetchComProxy(feed.url);
-                    return parseRSS(xml, feed);
-                } catch (e) {
-                    console.warn(`Erro ao carregar ${feed.nome}:`, e);
-                    return [];
-                }
-            });
+                    if (!xml) continue;
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(xml, "text/xml");
+                    const items = doc.querySelectorAll("item");
+                    
+                    for (let i = 0; i < Math.min(items.length, 10); i++) {
+                        const item = items[i];
+                        const titulo = item.querySelector("title")?.textContent || "";
+                        const link = item.querySelector("link")?.textContent || "";
+                        const pubDate = item.querySelector("pubDate")?.textContent || "";
+                        const imagem = extrairImagem(item);
 
-            const resultados = await Promise.allSettled(promises);
+                        if (titulo && !filtrarPromocao(titulo)) {
+                            todasNoticias.push({
+                                titulo: titulo,
+                                link: link,
+                                data: pubDate,
+                                imagem: imagem,
+                                fonte: feed.nome,
+                                cor: feed.cor,
+                                timestamp: new Date(pubDate).getTime() || 0
+                            });
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            // Ordenar por data e pegar as 4 mais recentes
+            todasNoticias.sort((a, b) => b.timestamp - a.timestamp);
+            const noticiasExibir = todasNoticias.slice(0, 4);
+
+            if (noticiasExibir.length === 0) {
+                container.innerHTML = '<p style="text-align:center;padding:40px;color:#666;">Nenhuma notícia disponível no momento.</p>';
+                return;
+            }
+
+            // Renderizar usando DOM (evita problemas de aspas)
+            container.innerHTML = "";
             
-            resultados.forEach(resultado => {
-                if (resultado.status === 'fulfilled') {
-                    todasNoticias.push(...resultado.value);
+            noticiasExibir.forEach(noticia => {
+                const card = document.createElement("div");
+                card.className = "noticia-card";
+
+                // Criar imagem ou placeholder
+                if (noticia.imagem) {
+                    const img = document.createElement("img");
+                    img.className = "noticia-imagem";
+                    img.src = noticia.imagem;
+                    img.alt = "";
+                    img.loading = "lazy";
+                    img.onerror = function() { handleImageError(this); };
+                    card.appendChild(img);
+                } else {
+                    const placeholder = document.createElement("div");
+                    placeholder.className = "noticia-placeholder";
+                    placeholder.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>';
+                    card.appendChild(placeholder);
                 }
+
+                // Conteúdo
+                const conteudo = document.createElement("div");
+                conteudo.className = "noticia-conteudo";
+
+                const fonte = document.createElement("span");
+                fonte.className = "noticia-fonte";
+                fonte.style.backgroundColor = noticia.cor;
+                fonte.textContent = noticia.fonte;
+
+                const titulo = document.createElement("h3");
+                titulo.className = "noticia-titulo";
+                const link = document.createElement("a");
+                link.href = noticia.link;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = noticia.titulo;
+                titulo.appendChild(link);
+
+                const dataSpan = document.createElement("span");
+                dataSpan.className = "noticia-data";
+                dataSpan.textContent = formatarData(noticia.data);
+
+                conteudo.appendChild(fonte);
+                conteudo.appendChild(titulo);
+                conteudo.appendChild(dataSpan);
+                card.appendChild(conteudo);
+                container.appendChild(card);
             });
 
-            renderizarNoticias(todasNoticias);
+            // Atualizar timestamp
+            const agora = new Date();
+            document.getElementById("ultima-atualizacao").textContent = 
+                "Atualizado: " + agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
         }
 
-        // Carregar ao iniciar
+        // Iniciar
         carregarNoticias();
-
-        // Atualizar a cada 30 minutos
         setInterval(carregarNoticias, 30 * 60 * 1000);
     </script>
 </body>
