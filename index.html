@@ -5,236 +5,541 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notícias de Tecnologia</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: transparent; padding: 16px; }
-        .widget-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #0078d4; }
-        .widget-title { font-size: 18px; font-weight: 600; color: #323130; display: flex; align-items: center; gap: 8px; }
-        .widget-title svg { width: 24px; height: 24px; fill: #0078d4; }
-        .ultima-atualizacao { font-size: 11px; color: #605e5c; }
-        .noticias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-        .noticia-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; transition: all 0.2s ease; border: 1px solid #edebe9; }
-        .noticia-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: translateY(-2px); }
-        .noticia-imagem { width: 100%; height: 140px; object-fit: cover; background: linear-gradient(135deg, #0078d4, #00a4ef); }
-        .noticia-placeholder { width: 100%; height: 140px; background: linear-gradient(135deg, #0078d4 0%, #00a4ef 50%, #7fba00 100%); display: flex; align-items: center; justify-content: center; }
-        .noticia-placeholder svg { width: 48px; height: 48px; fill: rgba(255,255,255,0.9); }
-        .noticia-conteudo { padding: 12px; }
-        .noticia-fonte { display: inline-block; font-size: 10px; font-weight: 600; color: #fff; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
-        .noticia-titulo { font-size: 14px; font-weight: 600; color: #323130; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .noticia-titulo a { color: inherit; text-decoration: none; }
-        .noticia-titulo a:hover { color: #0078d4; }
-        .noticia-data { font-size: 11px; color: #605e5c; }
-        .loading { text-align: center; padding: 40px; color: #605e5c; }
-        .loading-spinner { width: 40px; height: 40px; border: 3px solid #edebe9; border-top: 3px solid #0078d4; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* ============================================
+           WIDGET DE NOTÍCIAS
+           Última atualização: 20/02/2026
+           ============================================ */
+        
+        /* Reset e Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: transparent;
+            padding: 20px;
+            line-height: 1.5;
+            color: #1a1a1a;
+        }
+        
+        /* Cabeçalho do Widget */
+        .widget-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #0078d4;
+        }
+        
+        .widget-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .widget-icon {
+            width: 28px;
+            height: 28px;
+            fill: #0078d4;
+        }
+        
+        .widget-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Grid de Notícias */
+        .noticias-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 700px) {
+            .noticias-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Card de Notícia */
+        .noticia-card {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e5e5;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .noticia-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* Imagem da Notícia */
+        .noticia-imagem-wrapper {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .noticia-imagem {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .noticia-card:hover .noticia-imagem {
+            transform: scale(1.05);
+        }
+        
+        /* Placeholder para imagens ausentes */
+        .noticia-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0078d4 0%, #00bcf2 50%, #00b294 100%);
+        }
+        
+        .noticia-placeholder svg {
+            width: 56px;
+            height: 56px;
+            fill: rgba(255, 255, 255, 0.85);
+        }
+        
+        /* Conteúdo da Notícia */
+        .noticia-conteudo {
+            padding: 16px;
+        }
+        
+        /* Badge da Fonte */
+        .noticia-fonte {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Cores das fontes */
+        .fonte-tecmundo { background: #dc3545; }
+        .fonte-olhardigital { background: #007bff; }
+        .fonte-tecnoblog { background: #6f42c1; }
+        .fonte-canaltech { background: #28a745; }
+        
+        /* Título da Notícia */
+        .noticia-titulo {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 42px;
+        }
+        
+        .noticia-titulo a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .noticia-titulo a:hover {
+            color: #0078d4;
+        }
+        
+        /* Data da Notícia */
+        .noticia-data {
+            font-size: 12px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .noticia-data svg {
+            width: 14px;
+            height: 14px;
+            fill: #888;
+        }
+        
+        /* Estado de Carregamento */
+        .loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #e5e5e5;
+            border-top-color: #0078d4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Estado de Erro */
+        .erro {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: #fff5f5;
+            border-radius: 12px;
+            border: 1px solid #ffcccc;
+        }
+        
+        .erro-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .erro-texto {
+            color: #c53030;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-    <div class="widget-header">
-        <div class="widget-title">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+    <!-- Cabeçalho -->
+    <header class="widget-header">
+        <h1 class="widget-title">
+            <svg class="widget-icon" viewBox="0 0 24 24">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
             Notícias de Tecnologia
+        </h1>
+        <span class="widget-meta" id="atualizacao">Carregando...</span>
+    </header>
+    
+    <!-- Container das Notícias -->
+    <main class="noticias-grid" id="container">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Carregando notícias...</p>
         </div>
-        <span class="ultima-atualizacao" id="ultima-atualizacao"></span>
-    </div>
-    <div id="noticias-container" class="noticias-grid">
-        <div class="loading"><div class="loading-spinner"></div><p>Carregando notícias...</p></div>
-    </div>
+    </main>
 
     <script>
-        // Configuração
-        const FEEDS = [
-            { nome: "TecMundo", url: "https://rss.tecmundo.com.br/feed", cor: "#e74c3c" },
-            { nome: "Olhar Digital", url: "https://olhardigital.com.br/feed/", cor: "#3498db" },
-            { nome: "Tecnoblog", url: "https://tecnoblog.net/feed/", cor: "#9b59b6" },
-            { nome: "Canaltech", url: "https://canaltech.com.br/rss/", cor: "#2ecc71" }
+    (function() {
+        'use strict';
+        
+        // ===========================================
+        // CONFIGURAÇÕES
+        // ===========================================
+        
+        const CONFIG = {
+            maxNoticias: 4,
+            intervaloAtualizacao: 30 * 60 * 1000, // 30 minutos
+            feeds: [
+                { nome: 'TecMundo', url: 'https://rss.tecmundo.com.br/feed', classe: 'fonte-tecmundo' },
+                { nome: 'Olhar Digital', url: 'https://olhardigital.com.br/feed/', classe: 'fonte-olhardigital' },
+                { nome: 'Tecnoblog', url: 'https://tecnoblog.net/feed/', classe: 'fonte-tecnoblog' },
+                { nome: 'Canaltech', url: 'https://canaltech.com.br/rss/', classe: 'fonte-canaltech' }
+            ],
+            proxies: [
+                'https://api.allorigins.win/raw?url=',
+                'https://corsproxy.io/?',
+                'https://api.codetabs.com/v1/proxy?quest='
+            ]
+        };
+        
+        // Palavras para filtrar promoções
+        const FILTRO_PROMOCAO = [
+            'oferta', 'ofertas', 'promoção', 'promoções', 'desconto', 'descontos',
+            'cupom', 'cupons', 'grátis', 'black friday', 'cyber monday',
+            'amazon', 'magazine luiza', 'magalu', 'mercado livre', 'aliexpress',
+            'shopee', 'compre agora', 'comprar', 'onde comprar', 'melhor preço',
+            'cashback', 'frete grátis', 'economize', 'barato', 'liquidação',
+            'deal', 'deals', 'sale', 'outlet', 'off', '% de desconto',
+            'preço', 'r$', 'reais', 'parcela', 'sem juros', 'pix'
         ];
-
-        const PROXIES = [
-            "https://api.allorigins.win/raw?url=",
-            "https://corsproxy.io/?",
-            "https://api.codetabs.com/v1/proxy?quest="
-        ];
-
-        const PALAVRAS_BLOQUEADAS = [
-            "oferta","ofertas","promoção","promoções","desconto","descontos","cupom","cupons",
-            "grátis","black friday","cyber monday","amazon","magazine luiza","magalu","mercado livre",
-            "aliexpress","shopee","compre agora","comprar","onde comprar","melhor preço","cashback",
-            "frete grátis","economize","barato","liquidação","deal","deals","sale","outlet"
-        ];
-
-        // Função para tratar erro de imagem - SOLUÇÃO SEM ASPAS PROBLEMÁTICAS
-        function handleImageError(img) {
-            const placeholder = document.createElement('div');
-            placeholder.className = 'noticia-placeholder';
-            placeholder.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>';
-            img.parentNode.replaceChild(placeholder, img);
+        
+        // ===========================================
+        // FUNÇÕES UTILITÁRIAS
+        // ===========================================
+        
+        // Verifica se é promoção
+        function ehPromocao(texto) {
+            if (!texto) return false;
+            const lower = texto.toLowerCase();
+            return FILTRO_PROMOCAO.some(palavra => lower.includes(palavra));
         }
-
-        function filtrarPromocao(texto) {
-            const textoLower = texto.toLowerCase();
-            return PALAVRAS_BLOQUEADAS.some(palavra => textoLower.includes(palavra));
-        }
-
+        
+        // Formata a data
         function formatarData(dataStr) {
             try {
                 const data = new Date(dataStr);
                 const agora = new Date();
-                const diff = Math.floor((agora - data) / 60000);
-                if (diff < 1) return "Agora";
-                if (diff < 60) return `Há ${diff} min`;
-                if (diff < 1440) return `Há ${Math.floor(diff / 60)}h`;
-                return "Agora há pouco";
+                const diffMin = Math.floor((agora - data) / 60000);
+                
+                if (diffMin < 1) return 'Agora';
+                if (diffMin < 60) return 'Há ' + diffMin + ' min';
+                if (diffMin < 1440) return 'Há ' + Math.floor(diffMin / 60) + 'h';
+                return 'Agora há pouco';
             } catch (e) {
-                return "Agora há pouco";
+                return 'Agora há pouco';
             }
         }
-
+        
+        // Extrai imagem do item RSS
         function extrairImagem(item) {
-            try {
-                // 1. media:content
-                const mediaContent = item.getElementsByTagName("media:content")[0];
-                if (mediaContent) {
-                    const url = mediaContent.getAttribute("url");
-                    if (url && url.startsWith("http")) return url;
-                }
-                // 2. enclosure
-                const enclosure = item.getElementsByTagName("enclosure")[0];
-                if (enclosure) {
-                    const url = enclosure.getAttribute("url");
-                    if (url && url.startsWith("http")) return url;
-                }
-                // 3. content:encoded
-                const contentEncoded = item.getElementsByTagName("content:encoded")[0];
-                if (contentEncoded) {
-                    const match = contentEncoded.textContent.match(/<img[^>]+src=["']([^"']+)["']/i);
-                    if (match && match[1].startsWith("http")) return match[1];
-                }
-                // 4. description
-                const desc = item.getElementsByTagName("description")[0];
-                if (desc) {
-                    const match = desc.textContent.match(/<img[^>]+src=["']([^"']+)["']/i);
-                    if (match && match[1].startsWith("http")) return match[1];
-                }
-            } catch (e) {}
-            return "";
-        }
-
-        async function fetchComProxy(url) {
-            for (const proxy of PROXIES) {
-                try {
-                    const resp = await fetch(proxy + encodeURIComponent(url), { 
-                        signal: AbortSignal.timeout(8000) 
-                    });
-                    if (resp.ok) return await resp.text();
-                } catch (e) {}
+            // 1. media:content
+            var media = item.getElementsByTagName('media:content')[0];
+            if (media) {
+                var url = media.getAttribute('url');
+                if (url && url.startsWith('http')) return url;
             }
+            
+            // 2. enclosure
+            var enclosure = item.getElementsByTagName('enclosure')[0];
+            if (enclosure) {
+                var url = enclosure.getAttribute('url');
+                if (url && url.startsWith('http')) return url;
+            }
+            
+            // 3. content:encoded
+            var content = item.getElementsByTagName('content:encoded')[0];
+            if (content && content.textContent) {
+                var match = content.textContent.match(/<img[^>]+src=["']([^"']+)["']/i);
+                if (match && match[1]) return match[1];
+            }
+            
+            // 4. description
+            var desc = item.getElementsByTagName('description')[0];
+            if (desc && desc.textContent) {
+                var match = desc.textContent.match(/<img[^>]+src=["']([^"']+)["']/i);
+                if (match && match[1]) return match[1];
+            }
+            
             return null;
         }
-
-        async function carregarNoticias() {
-            const container = document.getElementById("noticias-container");
-            let todasNoticias = [];
-
-            for (const feed of FEEDS) {
-                try {
-                    const xml = await fetchComProxy(feed.url);
-                    if (!xml) continue;
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(xml, "text/xml");
-                    const items = doc.querySelectorAll("item");
-                    
-                    for (let i = 0; i < Math.min(items.length, 10); i++) {
-                        const item = items[i];
-                        const titulo = item.querySelector("title")?.textContent || "";
-                        const link = item.querySelector("link")?.textContent || "";
-                        const pubDate = item.querySelector("pubDate")?.textContent || "";
-                        const imagem = extrairImagem(item);
-
-                        if (titulo && !filtrarPromocao(titulo)) {
-                            todasNoticias.push({
-                                titulo: titulo,
-                                link: link,
-                                data: pubDate,
-                                imagem: imagem,
-                                fonte: feed.nome,
-                                cor: feed.cor,
-                                timestamp: new Date(pubDate).getTime() || 0
-                            });
-                        }
-                    }
-                } catch (e) {}
+        
+        // Extrai texto limpo
+        function extrairTexto(item, tagName) {
+            var elem = item.getElementsByTagName(tagName)[0];
+            if (!elem) return '';
+            var texto = elem.textContent || '';
+            return texto.replace(/<[^>]*>/g, '').trim();
+        }
+        
+        // ===========================================
+        // RENDERIZAÇÃO
+        // ===========================================
+        
+        // Cria o HTML do placeholder
+        function criarPlaceholderHTML() {
+            return '<div class="noticia-placeholder"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>';
+        }
+        
+        // Cria card de notícia
+        function criarCard(noticia) {
+            var card = document.createElement('article');
+            card.className = 'noticia-card';
+            
+            // Wrapper da imagem
+            var imgWrapper = document.createElement('div');
+            imgWrapper.className = 'noticia-imagem-wrapper';
+            
+            if (noticia.imagem) {
+                var img = document.createElement('img');
+                img.className = 'noticia-imagem';
+                img.alt = noticia.titulo;
+                img.loading = 'lazy';
+                
+                // Handler de erro SEM usar atributo onerror inline
+                img.onerror = function() {
+                    this.style.display = 'none';
+                    this.parentNode.innerHTML = criarPlaceholderHTML();
+                };
+                
+                img.src = noticia.imagem;
+                imgWrapper.appendChild(img);
+            } else {
+                imgWrapper.innerHTML = criarPlaceholderHTML();
             }
-
-            // Ordenar por data e pegar as 4 mais recentes
-            todasNoticias.sort((a, b) => b.timestamp - a.timestamp);
-            const noticiasExibir = todasNoticias.slice(0, 4);
-
-            if (noticiasExibir.length === 0) {
-                container.innerHTML = '<p style="text-align:center;padding:40px;color:#666;">Nenhuma notícia disponível no momento.</p>';
+            
+            card.appendChild(imgWrapper);
+            
+            // Conteúdo
+            var conteudo = document.createElement('div');
+            conteudo.className = 'noticia-conteudo';
+            
+            // Fonte
+            var fonte = document.createElement('span');
+            fonte.className = 'noticia-fonte ' + noticia.fonteClasse;
+            fonte.textContent = noticia.fonte;
+            conteudo.appendChild(fonte);
+            
+            // Título
+            var titulo = document.createElement('h2');
+            titulo.className = 'noticia-titulo';
+            var link = document.createElement('a');
+            link.href = noticia.link;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = noticia.titulo;
+            titulo.appendChild(link);
+            conteudo.appendChild(titulo);
+            
+            // Data
+            var data = document.createElement('p');
+            data.className = 'noticia-data';
+            data.innerHTML = '<svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>' + noticia.data;
+            conteudo.appendChild(data);
+            
+            card.appendChild(conteudo);
+            
+            return card;
+        }
+        
+        // Renderiza as notícias
+        function renderizar(noticias) {
+            var container = document.getElementById('container');
+            container.innerHTML = '';
+            
+            if (noticias.length === 0) {
+                container.innerHTML = '<div class="erro"><div class="erro-icon">📰</div><p class="erro-texto">Nenhuma notícia encontrada no momento.<br>Tente novamente em alguns minutos.</p></div>';
                 return;
             }
-
-            // Renderizar usando DOM (evita problemas de aspas)
-            container.innerHTML = "";
             
-            noticiasExibir.forEach(noticia => {
-                const card = document.createElement("div");
-                card.className = "noticia-card";
-
-                // Criar imagem ou placeholder
-                if (noticia.imagem) {
-                    const img = document.createElement("img");
-                    img.className = "noticia-imagem";
-                    img.src = noticia.imagem;
-                    img.alt = "";
-                    img.loading = "lazy";
-                    img.onerror = function() { handleImageError(this); };
-                    card.appendChild(img);
-                } else {
-                    const placeholder = document.createElement("div");
-                    placeholder.className = "noticia-placeholder";
-                    placeholder.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>';
-                    card.appendChild(placeholder);
-                }
-
-                // Conteúdo
-                const conteudo = document.createElement("div");
-                conteudo.className = "noticia-conteudo";
-
-                const fonte = document.createElement("span");
-                fonte.className = "noticia-fonte";
-                fonte.style.backgroundColor = noticia.cor;
-                fonte.textContent = noticia.fonte;
-
-                const titulo = document.createElement("h3");
-                titulo.className = "noticia-titulo";
-                const link = document.createElement("a");
-                link.href = noticia.link;
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
-                link.textContent = noticia.titulo;
-                titulo.appendChild(link);
-
-                const dataSpan = document.createElement("span");
-                dataSpan.className = "noticia-data";
-                dataSpan.textContent = formatarData(noticia.data);
-
-                conteudo.appendChild(fonte);
-                conteudo.appendChild(titulo);
-                conteudo.appendChild(dataSpan);
-                card.appendChild(conteudo);
-                container.appendChild(card);
+            noticias.slice(0, CONFIG.maxNoticias).forEach(function(noticia) {
+                container.appendChild(criarCard(noticia));
             });
-
-            // Atualizar timestamp
-            const agora = new Date();
-            document.getElementById("ultima-atualizacao").textContent = 
-                "Atualizado: " + agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+            
+            // Atualiza timestamp
+            var agora = new Date();
+            var hora = agora.getHours().toString().padStart(2, '0');
+            var minuto = agora.getMinutes().toString().padStart(2, '0');
+            document.getElementById('atualizacao').textContent = 'Atualizado: ' + hora + ':' + minuto;
         }
-
-        // Iniciar
+        
+        // ===========================================
+        // CARREGAMENTO DOS FEEDS
+        // ===========================================
+        
+        // Busca um feed com fallback de proxies
+        async function buscarFeed(feed, proxyIndex) {
+            if (proxyIndex >= CONFIG.proxies.length) {
+                return [];
+            }
+            
+            var proxy = CONFIG.proxies[proxyIndex];
+            var url = proxy + encodeURIComponent(feed.url);
+            
+            try {
+                var response = await fetch(url);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                
+                var texto = await response.text();
+                var parser = new DOMParser();
+                var xml = parser.parseFromString(texto, 'text/xml');
+                var items = xml.getElementsByTagName('item');
+                var noticias = [];
+                
+                for (var i = 0; i < items.length && noticias.length < 3; i++) {
+                    var item = items[i];
+                    var titulo = extrairTexto(item, 'title');
+                    var descricao = extrairTexto(item, 'description');
+                    
+                    // Filtra promoções
+                    if (ehPromocao(titulo) || ehPromocao(descricao)) {
+                        continue;
+                    }
+                    
+                    var linkElem = item.getElementsByTagName('link')[0];
+                    var link = linkElem ? linkElem.textContent.trim() : '';
+                    
+                    var pubDateElem = item.getElementsByTagName('pubDate')[0];
+                    var pubDate = pubDateElem ? pubDateElem.textContent : '';
+                    
+                    noticias.push({
+                        titulo: titulo,
+                        link: link,
+                        imagem: extrairImagem(item),
+                        data: formatarData(pubDate),
+                        fonte: feed.nome,
+                        fonteClasse: feed.classe,
+                        timestamp: new Date(pubDate).getTime() || 0
+                    });
+                }
+                
+                return noticias;
+                
+            } catch (e) {
+                // Tenta próximo proxy
+                return buscarFeed(feed, proxyIndex + 1);
+            }
+        }
+        
+        // Carrega todas as notícias
+        async function carregarNoticias() {
+            try {
+                var promessas = CONFIG.feeds.map(function(feed) {
+                    return buscarFeed(feed, 0);
+                });
+                
+                var resultados = await Promise.all(promessas);
+                var todasNoticias = [];
+                
+                resultados.forEach(function(noticias) {
+                    todasNoticias = todasNoticias.concat(noticias);
+                });
+                
+                // Ordena por timestamp (mais recentes primeiro)
+                todasNoticias.sort(function(a, b) {
+                    return b.timestamp - a.timestamp;
+                });
+                
+                renderizar(todasNoticias);
+                
+            } catch (e) {
+                console.error('Erro ao carregar notícias:', e);
+                document.getElementById('container').innerHTML = '<div class="erro"><div class="erro-icon">⚠️</div><p class="erro-texto">Erro ao carregar notícias.<br>Tente atualizar a página.</p></div>';
+            }
+        }
+        
+        // ===========================================
+        // INICIALIZAÇÃO
+        // ===========================================
+        
+        // Carrega ao iniciar
         carregarNoticias();
-        setInterval(carregarNoticias, 30 * 60 * 1000);
+        
+        // Atualiza automaticamente
+        setInterval(carregarNoticias, CONFIG.intervaloAtualizacao);
+        
+    })();
     </script>
 </body>
 </html>
