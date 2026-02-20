@@ -427,23 +427,30 @@
             noticias.sort((a, b) => b.data - a.data);
             const top4 = noticias.slice(0, 4);
 
-            container.innerHTML = top4.map(noticia => `
-                <div class="noticia-card">
-                    ${noticia.imagem ? 
-                        `<img class="noticia-imagem" src="${noticia.imagem}" alt="" loading="lazy" onerror="this.outerHTML='<div class=noticia-placeholder>${PLACEHOLDER_SVG}</div>'">` : 
-                        `<div class="noticia-placeholder">${PLACEHOLDER_SVG}</div>`
-                    }
-                    <div class="noticia-conteudo">
-                        <span class="noticia-fonte" style="background: ${noticia.cor}20; color: ${noticia.cor}">
-                            ${noticia.fonte}
-                        </span>
-                        <h3 class="noticia-titulo">
-                            <a href="${noticia.link}" target="_blank" rel="noopener">${noticia.titulo}</a>
-                        </h3>
-                        <span class="noticia-data">${formatarData(noticia.data)}</span>
-                    </div>
-                </div>
-            `).join('');
+            container.innerHTML = top4.map(noticia => {
+                const placeholderHTML = '<div class="noticia-placeholder">' + PLACEHOLDER_SVG + '</div>';
+                const escapedPlaceholder = placeholderHTML.replace(/"/g, '&quot;');
+                
+                let imagemHTML;
+                if (noticia.imagem) {
+                    imagemHTML = '<img class="noticia-imagem" src="' + noticia.imagem + '" alt="" loading="lazy" onerror="this.outerHTML=\'' + placeholderHTML.replace(/'/g, "\\'").replace(/"/g, '\\"') + '\'">';
+                } else {
+                    imagemHTML = placeholderHTML;
+                }
+                
+                return '<div class="noticia-card">' +
+                    imagemHTML +
+                    '<div class="noticia-conteudo">' +
+                        '<span class="noticia-fonte" style="background: ' + noticia.cor + '20; color: ' + noticia.cor + '">' +
+                            noticia.fonte +
+                        '</span>' +
+                        '<h3 class="noticia-titulo">' +
+                            '<a href="' + noticia.link + '" target="_blank" rel="noopener">' + noticia.titulo + '</a>' +
+                        '</h3>' +
+                        '<span class="noticia-data">' + formatarData(noticia.data) + '</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
 
             document.getElementById('ultima-atualizacao').textContent = 
                 `Atualizado: ${new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}`;
